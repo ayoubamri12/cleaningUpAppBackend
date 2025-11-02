@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\InclusionController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\PartnerController;
+use App\Http\Controllers\Api\PhotoController;
 use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SettingsController;
@@ -35,12 +36,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{service}', [ServiceController::class, 'update']);
     Route::delete('/services/delete/{service}', [ServiceController::class, 'destroy']);
+
     Route::resource('offers', OfferController::class)->only([
         'store',
         'update',
         'index',
         'destroy'
     ]);
+    
     Route::resource('gallery', GalleryController::class)->only([
         'store',
         'destroy'
@@ -64,6 +67,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/inclusions', [InclusionController::class, 'store']);
     Route::put('/inclusions/{id}', [InclusionController::class, 'update']);
     Route::delete('/inclusions/{id}', [InclusionController::class, 'destroy']);
+
+    Route::post('/photos', [PhotoController::class, 'store']);
+    Route::delete('/photos/{id}', [PhotoController::class, 'destroy']);
 });
 
 Route::middleware(['web'])->group(function () {
@@ -74,6 +80,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::get('/partners', [PartnerController::class, 'index']);
     Route::get('/prices', [PriceController::class, 'index']);
+    Route::get('/photos', [PhotoController::class, 'index']);
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->name('login');
 
