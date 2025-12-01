@@ -31,6 +31,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Credentials do not match our records.'
+            ], 401);
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
